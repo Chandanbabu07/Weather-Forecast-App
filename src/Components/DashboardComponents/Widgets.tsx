@@ -11,13 +11,12 @@ const Widgets = () => {
         borderRadius: 1,
         bgcolor: "#000000",
         margin: "auto",
-        minHeight: "100vh",
         padding: 2,
         marginTop: {
           xs: "10px",
-          sm: "70px",
+          sm: "20px",
         },
-        gap: { xs: "15px", sm: "30px" }, // Responsive gap
+        gap: { xs: "15px", sm: "30px" },
         flexWrap: "wrap",
         justifyContent: "center",
       }}
