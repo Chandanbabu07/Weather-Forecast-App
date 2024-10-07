@@ -1,7 +1,8 @@
 import React from "react";
-import { Box } from "@mui/material";
+import { Box, Button, ButtonGroup } from "@mui/material";
 import SearchWidgets from "./DashboardComponents/SearchWidgets";
 import Widgets from "./DashboardComponents/Widgets";
+import { useMyContext } from "../Context";
 
 interface DashboardProps {
   weatherData: any;
@@ -12,6 +13,8 @@ const Dashboard: React.FC<DashboardProps> = ({
   weatherData,
   fetchWeatherDetails,
 }) => {
+  const { selectType, setSelectType } = useMyContext();
+
   return (
     <Box
       sx={{
@@ -26,9 +29,36 @@ const Dashboard: React.FC<DashboardProps> = ({
         gap: "30px",
         flexWrap: "wrap",
         justifyContent: "center",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <SearchWidgets fetchWeatherDetails={fetchWeatherDetails} />
+      <Box>
+        <ButtonGroup
+          disableElevation
+          variant="contained"
+          aria-label="Disabled button group"
+        >
+          <Button
+            style={{
+              backgroundColor: selectType === "Celsius" ? "#00008B" : "",
+            }}
+            onClick={() => setSelectType("Celsius")}
+          >
+            Celsius
+          </Button>
+          <Button
+            style={{
+              backgroundColor:
+                selectType === "Fahrenheit" ? "#00008B" : "",
+            }}
+            onClick={() => setSelectType("Fahrenheit")}
+          >
+            Fahrenheit
+          </Button>
+        </ButtonGroup>
+      </Box>
       <Widgets
         weatherData={weatherData}
         fetchWeatherDetails={fetchWeatherDetails}

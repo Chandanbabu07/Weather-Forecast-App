@@ -5,6 +5,7 @@ import Dashboard from "./Components/Dashboard";
 import Home from "./Components/Home";
 import axios from "axios";
 import { useMyContext } from "./Context";
+import WidgetDetail from "./Components/DashboardComponents/WidgetDetail";
 
 function App() {
   // const [weatherData, setWeatherData] = useState<any>(null);
@@ -64,6 +65,7 @@ function App() {
               />
             }
           />
+          <Route path="/details" element={<WidgetDetail />} />
         </Routes>
       </Router>
     </>

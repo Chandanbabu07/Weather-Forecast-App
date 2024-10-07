@@ -7,8 +7,8 @@ interface DashboardProps {
 }
 
 const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
-  const [searchedCity, setSearchedCity] = useState<string | null>();
-
+  const [searchedCity, setSearchedCity] = useState<string>("");
+  console.log("searchedCity");
   const handleSearch = () => {
     const defaultCities = localStorage.getItem("defaultCities");
     const city = searchedCity?.toLowerCase();
@@ -32,7 +32,7 @@ const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
     console.log("Cities", Cities);
 
     const parsedCities = Cities ? JSON.parse(Cities) : [];
-
+    setSearchedCity("");
     fetchWeatherDetails(parsedCities);
   };
 
@@ -78,6 +78,7 @@ const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
             },
           }}
           onChange={(e) => setSearchedCity(e.target.value)}
+          value={searchedCity}
         />
 
         <Button onClick={() => handleSearch()}>
