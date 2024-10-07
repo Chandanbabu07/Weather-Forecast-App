@@ -1,7 +1,48 @@
-import { Box } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 
-const Widgets = () => {
+// Define the structure of a weather object inside the weather array
+interface WeatherCondition {
+  main: string; // For weather condition like "Cloudy", "Sunny"
+}
+
+// Define the structure of the weather data
+interface WeatherItem {
+  temp: number;
+  condition: string;
+  name: string;
+  weather: WeatherCondition[]; // Array of WeatherCondition objects
+  main: any;
+}
+
+interface DashboardProps {
+  weatherData: WeatherItem[];
+  fetchWeatherDetails: any;
+}
+
+const Widgets: React.FC<DashboardProps> = ({
+  weatherData,
+  fetchWeatherDetails,
+}) => {
+  console.log("weatherData", weatherData);
+
+  const handleRemoveWidget = (city: String) => {
+    const defaultCities = localStorage.getItem("defaultCities");
+    let updatedCities: string[] = [];
+
+    if (defaultCities) {
+      updatedCities = JSON.parse(defaultCities);
+    }
+
+    updatedCities = updatedCities.filter(
+      (item: string) => item !== city.toLowerCase()
+    );
+
+    localStorage.setItem("defaultCities", JSON.stringify(updatedCities));
+
+    fetchWeatherDetails(updatedCities);
+  };
+
   return (
     <Box
       sx={{
@@ -21,90 +62,36 @@ const Widgets = () => {
         justifyContent: "center",
       }}
     >
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />{" "}
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />{" "}
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />{" "}
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />{" "}
-      <Box
-        sx={{
-          width: {
-            xs: "400px",
-            sm: 300,
-          },
-          height: "120px",
-          borderRadius: "20px",
-          bgcolor: "primary.main",
-          "&:hover": {
-            bgcolor: "primary.dark",
-          },
-        }}
-      />{" "}
+      {weatherData &&
+        weatherData.map((item: WeatherItem, index: number) => {
+          console.log("item", item);
+          return (
+            <Box
+              key={index}
+              sx={{
+                width: {
+                  xs: "400px",
+                  sm: 300,
+                },
+                height: "120px",
+                borderRadius: "20px",
+                bgcolor: "white",
+              }}
+            >
+              <Button
+                variant="contained"
+                onClick={() => handleRemoveWidget(item?.name)}
+              >
+                Remove
+              </Button>
+              <Typography variant="h6" gutterBottom>
+                {item?.name}
+              </Typography>
+              <Typography variant="body1">{item?.weather[0]?.main} </Typography>
+              <Typography variant="body1">{item?.main?.temp}</Typography>
+            </Box>
+          );
+        })}
     </Box>
   );
 };

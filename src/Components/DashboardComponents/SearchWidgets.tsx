@@ -1,8 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
-const SearchWidgets = () => {
+interface DashboardProps {
+  fetchWeatherDetails: any;
+}
+
+const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
+  const [searchedCity, setSearchedCity] = useState<string | null>();
+
+  const handleSearch = () => {
+    const defaultCities = localStorage.getItem("defaultCities");
+    const city = searchedCity?.toLowerCase();
+    let citiesArray;
+
+    if (defaultCities) {
+      citiesArray = JSON.parse(defaultCities);
+    } else {
+      citiesArray = [];
+    }
+
+    if (!citiesArray.includes(city)) {
+      citiesArray.unshift(city);
+    } else {
+      alert("Already Exist");
+    }
+
+    localStorage.setItem("defaultCities", JSON.stringify(citiesArray));
+
+    const Cities = localStorage.getItem("defaultCities");
+    console.log("Cities", Cities);
+
+    const parsedCities = Cities ? JSON.parse(Cities) : [];
+
+    fetchWeatherDetails(parsedCities);
+  };
+
   return (
     <div>
       <Box
@@ -44,9 +77,10 @@ const SearchWidgets = () => {
               },
             },
           }}
+          onChange={(e) => setSearchedCity(e.target.value)}
         />
 
-        <Button>
+        <Button onClick={() => handleSearch()}>
           <SearchIcon style={{ color: "black" }} />
         </Button>
       </Box>

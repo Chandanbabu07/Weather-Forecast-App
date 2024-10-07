@@ -3,7 +3,15 @@ import { Box } from "@mui/material";
 import SearchWidgets from "./DashboardComponents/SearchWidgets";
 import Widgets from "./DashboardComponents/Widgets";
 
-const Dashboard = () => {
+interface DashboardProps {
+  weatherData: any;
+  fetchWeatherDetails: any;
+}
+
+const Dashboard: React.FC<DashboardProps> = ({
+  weatherData,
+  fetchWeatherDetails,
+}) => {
   return (
     <Box
       sx={{
@@ -20,8 +28,11 @@ const Dashboard = () => {
         justifyContent: "center",
       }}
     >
-      <SearchWidgets></SearchWidgets>
-      <Widgets></Widgets>
+      <SearchWidgets fetchWeatherDetails={fetchWeatherDetails} />
+      <Widgets
+        weatherData={weatherData}
+        fetchWeatherDetails={fetchWeatherDetails}
+      />
     </Box>
   );
 };

@@ -4,24 +4,38 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
 import Home from "./Components/Home";
 import axios from "axios";
+import { useMyContext } from "./Context";
 
 function App() {
-  const [weatherData, setWeatherData] = useState<any>(null);
+  // const [weatherData, setWeatherData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const defaultCities = localStorage.getItem("defaultCities");
+
+  if (!defaultCities) {
+    localStorage.setItem(
+      "defaultCities",
+      JSON.stringify(["mysore", "Bengaluru", "mumbai", "australia", "new york"])
+    );
+  }
+
+  const { weatherData, setWeatherData } = useMyContext();
+  console.log("weatherData", weatherData);
 
   console.log(loading, error);
 
-  console.log("City", weatherData?.name);
-
-  const fetchWeatherDetails = async (city: string) => {
+  const fetchWeatherDetails = async (cities: string[]) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5cbd321bec63832fc59bccdeb14e45a5&units=metric`
+      const weatherRequests = cities.map((city) =>
+        axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5cbd321bec63832fc59bccdeb14e45a5&units=metric`
+        )
       );
-      setWeatherData(response.data);
+      const responses = await Promise.all(weatherRequests);
+      const data = responses.map((response) => response.data);
+      setWeatherData(data);
     } catch (error) {
       console.error("Error fetching weather details:", error);
       setError("Failed to fetch weather data.");
@@ -31,15 +45,25 @@ function App() {
   };
 
   useEffect(() => {
-    fetchWeatherDetails("Mysore");
-  }, []);
+    const parsedCities = defaultCities ? JSON.parse(defaultCities) : [];
+    console.log("parsedCities", parsedCities);
+    if (parsedCities.length > 0) fetchWeatherDetails(parsedCities);
+  }, [defaultCities]);
 
   return (
     <>
       <Router>
         <Routes>
           <Route path="/home" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/dashboard"
+            element={
+              <Dashboard
+                weatherData={weatherData}
+                fetchWeatherDetails={fetchWeatherDetails}
+              />
+            }
+          />
         </Routes>
       </Router>
     </>
