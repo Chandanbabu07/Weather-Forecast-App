@@ -1,46 +1,26 @@
-# Getting Started with Create React App
+## Clone the Project from GitHub: 
+First, get a copy of the project from GitHub.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Open the Project in Visual Studio Code:
+After cloning, open the project folder in Visual Studio Code.
 
-## Available Scripts
+## Install Dependencies:
+ Inside the project directory, open the terminal and run npm install to install all the necessary dependencies required for the project to run.
 
-In the project directory, you can run:
+## Start the Project: 
+Once the dependencies are installed, start the project by running npm start. This will launch the application on a local development server.
 
-### `npm start`
+## Navigate to the Home Page: 
+After starting the project, the homepage will appear. There should be a button displayed on the homepage.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Navigate to the Weather Dashboard: 
+Click on the button, and you’ll be taken to the Weather Dashboard.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Search for a City or Country: 
+In the Weather Dashboard, you can search for a city or country. Once you do, the city or country you searched for will be added as a widget on the dashboard.
 
-### `npm test`
+## Remove a Widget:
+ There is also an option to remove any of the widgets from the dashboard if you don’t need them anymore.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## View Widget Details:
+ If you click on any of the widgets, it will take you to a simple detail page showing more information about the selected city or country.
