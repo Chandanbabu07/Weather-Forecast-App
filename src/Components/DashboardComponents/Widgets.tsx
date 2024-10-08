@@ -35,7 +35,7 @@ const Widgets: React.FC<DashboardProps> = ({
 
   const navigate = useNavigate();
 
-  const handleRemoveWidget = (e: any, city: String) => {
+  const handleRemoveWidget = (e: any, city: string) => {
     e.stopPropagation();
 
     const defaultCities = localStorage.getItem("defaultCities");
@@ -45,8 +45,17 @@ const Widgets: React.FC<DashboardProps> = ({
       updatedCities = JSON.parse(defaultCities);
     }
 
+    const normalizedCity = city
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
     updatedCities = updatedCities.filter(
-      (item: string) => item !== city.toLowerCase()
+      (item: string) =>
+        item
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") !== normalizedCity
     );
 
     localStorage.setItem("defaultCities", JSON.stringify(updatedCities));

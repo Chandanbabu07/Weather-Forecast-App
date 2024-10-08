@@ -16,7 +16,7 @@ function App() {
   if (!defaultCities) {
     localStorage.setItem(
       "defaultCities",
-      JSON.stringify(["mysore", "Bengaluru", "mumbai", "australia", "new york"])
+      JSON.stringify(["mysore", "bengaluru", "mumbai", "australia", "new york"])
     );
   }
 
@@ -24,7 +24,7 @@ function App() {
     useMyContext();
   console.log("weatherData", weatherData);
 
-  console.log(loading, error);
+  console.log("error", error);
 
   const fetchWeatherDetails = async (cities: string[]) => {
     setLoading(true);
@@ -35,12 +35,32 @@ function App() {
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5cbd321bec63832fc59bccdeb14e45a5&units=metric`
         )
       );
-      const responses = await Promise.all(weatherRequests);
-      const data = responses.map((response) => response.data);
-      setWeatherData(data);
+
+      const responses = await Promise.allSettled(weatherRequests);
+      console.log("responses", responses);
+
+      const successfulResponses = responses
+        .filter((response) => response.status === "fulfilled")
+        .map((response: any) => response.value.data);
+
+      if (successfulResponses.length) {
+        setWeatherData(successfulResponses);
+      } else {
+        setError("No successful weather data fetched.");
+      }
+
+      // const rejectedResponses = responses
+      //   .filter((response) => response.status === "rejected")
+      //   .map((response: any) => response.value.data);
+
+      // console.log("rejectedResponses", rejectedResponses);
+
+      // if (rejectedResponses.length) {
+      //   alert("City or Country Not found");
+      // }
     } catch (error) {
       console.error("Error fetching weather details:", error);
-      setError("Failed to fetch weather data.");
+      setError("An unexpected error occurred.");
     } finally {
       setLoading(false);
     }
