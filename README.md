@@ -33,3 +33,6 @@ There is also an option to remove any of the widgets from the dashboard if you d
 ## View Widget Details:
 
 If you click on any of the widgets, it will take you to a simple detail page showing more information about the selected city or country.
+
+
+![Uploading Screenshot 2024-10-08 at 10.12.32 AM.png…]()
