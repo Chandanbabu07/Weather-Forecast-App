@@ -5,6 +5,10 @@ interface MyContextType {
   setWeatherData: (value: any) => void;
   weatherDetail: any;
   setWeatherDetail: (value: any) => void;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
+  error: string | null;
+  setError: (value: string | null) => void;
   widgetColor: any;
   setWidgetColor: (value: any) => void;
   selectType: any;
@@ -16,6 +20,8 @@ const MyContext = createContext<MyContextType | undefined>(undefined);
 const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [weatherData, setWeatherData] = useState<any>(null);
   const [weatherDetail, setWeatherDetail] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const [widgetColor, setWidgetColor] = useState<any>(null);
   const [selectType, setSelectType] = useState<any>("Celsius");
 
@@ -30,6 +36,10 @@ const MyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         setWidgetColor,
         selectType,
         setSelectType,
+        loading,
+        setLoading,
+        error,
+        setError,
       }}
     >
       {children}

@@ -3,6 +3,10 @@ import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useMyContext } from "../../Context";
 import { useNavigate } from "react-router-dom";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import ThunderstormIcon from "@mui/icons-material/Thunderstorm";
+import CloudIcon from "@mui/icons-material/Cloud";
+import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 
 interface WeatherCondition {
   main: string;
@@ -66,98 +70,146 @@ const Widgets: React.FC<DashboardProps> = ({
   };
 
   return (
-      <Box
-        sx={{
-          display: "flex",
-          width: "90%",
-          height: "auto",
-          borderRadius: 1,
-          bgcolor: "#000000",
-          margin: "auto",
-          padding: 2,
-          marginTop: {
-            xs: "10px",
-            sm: "20px",
-          },
-          gap: { xs: "15px", sm: "30px" },
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {weatherData &&
-          weatherData.map((item: WeatherItem, index: number) => {
-            const backgroundColor =
-              backgroundColors[index % backgroundColors.length];
-            const Fahrenheit = Math.round((item?.main?.temp * 9) / 5 + 32);
-            return (
-              <Box
-                key={index}
+    <Box
+      sx={{
+        display: "flex",
+        width: "90%",
+        height: "auto",
+        borderRadius: 1,
+        bgcolor: "#000000",
+        margin: "auto",
+        padding: 2,
+        marginTop: {
+          xs: "10px",
+          sm: "20px",
+        },
+        gap: { xs: "15px", sm: "30px" },
+        flexWrap: "wrap",
+        justifyContent: "center",
+      }}
+    >
+      {weatherData &&
+        weatherData.map((item: WeatherItem, index: number) => {
+          const backgroundColor =
+            backgroundColors[index % backgroundColors.length];
+          const Fahrenheit = Math.round((item?.main?.temp * 9) / 5 + 32);
+          return (
+            <Box
+              key={index}
+              sx={{
+                width: {
+                  xs: "400px",
+                  sm: 300,
+                },
+                height: "120px",
+                borderRadius: "20px",
+                bgcolor: backgroundColor,
+                position: "relative",
+                padding: "10px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "90px",
+                cursor: "pointer",
+              }}
+              onClick={() => handleWidgetClick(item, backgroundColor)}
+            >
+              <SvgIcon
+                component={DeleteIcon}
+                onClick={(e) => handleRemoveWidget(e, item?.name)}
                 sx={{
-                  width: {
-                    xs: "400px",
-                    sm: 300,
-                  },
-                  height: "120px",
-                  borderRadius: "20px",
-                  bgcolor: backgroundColor,
-                  position: "relative",
-                  padding: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  gap: "100px",
+                  position: "absolute",
+                  right: 10,
+                  top: 10,
                   cursor: "pointer",
+                  color: "grey",
+                  "&:hover": {
+                    color: "red",
+                  },
                 }}
-                onClick={() => handleWidgetClick(item, backgroundColor)}
+              />
+              <Box>
+                <Typography
+                  variant="h6"
+                  style={{ fontWeight: 700 }}
+                  gutterBottom
+                >
+                  {item?.name}
+                </Typography>
+                <Typography variant="body1">
+                  {item?.weather[0]?.main}{" "}
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  justifyItems: "center",
+                  alignItems: "center",
+                }}
               >
-                <SvgIcon
-                  component={DeleteIcon}
-                  onClick={(e) => handleRemoveWidget(e, item?.name)}
-                  sx={{
-                    position: "absolute",
-                    right: 10,
-                    top: 10,
-                    cursor: "pointer",
-                    color: "grey",
-                    "&:hover": {
-                      color: "red",
-                    },
-                  }}
-                />
-                <Box>
+                {selectType && selectType === "Celsius" ? (
                   <Typography
-                    variant="h6"
-                    style={{ fontWeight: 700 }}
-                    gutterBottom
+                    variant="body1"
+                    style={{ fontSize: "1.7rem", fontWeight: 800 }}
                   >
-                    {item?.name}
+                    {item?.main?.temp} °C
                   </Typography>
-                  <Typography variant="body1">
-                    {item?.weather[0]?.main}{" "}
+                ) : (
+                  <Typography
+                    variant="body1"
+                    style={{ fontSize: "1.7rem", fontWeight: 800 }}
+                  >
+                    {Fahrenheit} °F
                   </Typography>
-                </Box>
+                )}
 
                 <Box>
-                  {selectType && selectType === "Celsius" ? (
-                    <Typography
-                      variant="body1"
-                      style={{ fontSize: "1.7rem", fontWeight: 800 }}
-                    >
-                      {item?.main?.temp} °C
-                    </Typography>
+                  {item?.weather[0]?.main === "Rain" ? (
+                    <SvgIcon
+                      component={ThunderstormIcon}
+                      sx={{
+                        right: 10,
+                        top: 10,
+                        color: "black",
+                      }}
+                    />
+                  ) : item?.weather[0]?.main === "Sunny" ? (
+                    <SvgIcon
+                      component={WbSunnyIcon}
+                      sx={{
+                        right: 10,
+                        top: 10,
+                        color: "black",
+                      }}
+                    />
+                  ) : item?.weather[0]?.main === "Clouds" ? (
+                    <SvgIcon
+                      component={CloudIcon}
+                      sx={{
+                        right: 10,
+                        top: 10,
+                        color: "black",
+                      }}
+                    />
                   ) : (
-                    <Typography
-                      variant="body1"
-                      style={{ fontSize: "1.7rem", fontWeight: 800 }}
-                    >
-                      {Fahrenheit} °F
-                    </Typography>
+                    <SvgIcon
+                      component={CloudQueueIcon}
+                      sx={{
+                        right: 10,
+                        top: 10,
+                        color: "black",
+                      }}
+                    ></SvgIcon>
                   )}
                 </Box>
               </Box>
-            );
-          })}
-      </Box>
+            </Box>
+          );
+        })}
+    </Box>
   );
 };
 

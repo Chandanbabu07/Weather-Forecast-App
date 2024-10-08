@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Dashboard from "./Components/Dashboard";
@@ -9,8 +9,8 @@ import WidgetDetail from "./Components/DashboardComponents/WidgetDetail";
 
 function App() {
   // const [weatherData, setWeatherData] = useState<any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<string | null>(null);
   const defaultCities = localStorage.getItem("defaultCities");
 
   if (!defaultCities) {
@@ -20,7 +20,8 @@ function App() {
     );
   }
 
-  const { weatherData, setWeatherData } = useMyContext();
+  const { weatherData, setWeatherData, loading, setLoading, error, setError } =
+    useMyContext();
   console.log("weatherData", weatherData);
 
   console.log(loading, error);
@@ -49,13 +50,14 @@ function App() {
     const parsedCities = defaultCities ? JSON.parse(defaultCities) : [];
     console.log("parsedCities", parsedCities);
     if (parsedCities.length > 0) fetchWeatherDetails(parsedCities);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultCities]);
 
   return (
     <>
       <Router>
         <Routes>
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route
             path="/dashboard"
             element={

@@ -36,6 +36,12 @@ const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
     fetchWeatherDetails(parsedCities);
   };
 
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
   return (
     <div>
       <Box
@@ -79,6 +85,7 @@ const SearchWidgets: React.FC<DashboardProps> = ({ fetchWeatherDetails }) => {
           }}
           onChange={(e) => setSearchedCity(e.target.value)}
           value={searchedCity}
+          onKeyDown={handleKeyPress}
         />
 
         <Button onClick={() => handleSearch()}>
